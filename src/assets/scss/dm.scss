@@ -1,0 +1,509 @@
+.dmAutoCol {
+    width: 1px;
+    white-space: nowrap;
+}
+
+.dmTable {
+    border: 1px solid #dee2e6;
+
+    thead {
+        background-color: $dark-color;
+        color: $primary-color;
+    }
+
+    td,
+    th {
+        padding: 12px !important;
+    }
+
+    .dmP5 {
+        padding: 5px !important;
+    }
+}
+
+.dmModal {
+
+    .modal-header {
+        border-bottom: 1px solid #dee2e6;
+        padding: 12px;
+    }
+
+    .modal-body {
+        padding: 12px;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #dee2e6;
+        padding: 12px;
+
+        button {
+            margin-left: 5px;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+    }
+
+}
+
+.dmBottomBorder {
+    border-bottom: 1px dotted #dee2e6 !important;
+}
+
+.input-group-text {
+    background-color: #dee2e6 !important;
+    //font-weight: bold;
+    color: black !important;
+    padding-left: 10px !important;
+}
+
+input,
+option,
+select,
+label,
+textarea {
+    color: black !important;
+}
+
+textarea {
+    line-height: 24px !important;
+}
+
+.dmCardPorudzbina {
+
+    margin: 0;
+    flex-shrink: 0;
+    white-space: nowrap;
+
+    @media (orientation: portrait) {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    @media (orientation: landscape) {
+        margin-right: 10px;
+        max-height: 100% !important;
+        min-width: 20% !important;
+        max-width: 48% !important;
+    }
+
+    .card-header {
+
+        padding: 8px;
+
+        .badge {
+            margin: 0;
+            margin-left: 0 !important;
+            vertical-align: middle;
+        }
+
+        .card-title {
+            margin: 1px;
+            font-weight: bold;
+        }
+    }
+
+    .card-body {
+        padding: 8px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        #razlog {
+            margin-bottom: 5px;
+        }
+
+        ul {
+            padding-left: 20px !important;
+            margin-bottom: 0px;
+            overflow: hidden;
+            max-width: 100%;
+            white-space: pre-wrap;
+
+        }
+
+        ol {
+            list-style-type: disc;
+            padding-left: 30px;
+            margin-bottom: 5px;
+            
+        }
+
+        .divOkvir {
+            padding: 8px;
+            border: 1px solid rgba($color: #000000, $alpha: 0.125);
+            border-radius: $border-radius-extreme;
+            overflow-x: auto;            
+        }
+    }
+
+    .card-footer {
+        padding: 0px;
+
+        .padded {
+            padding: 8px !important;
+            ;
+        }
+
+        .progress {
+
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+            border-bottom-left-radius: $border-radius-extreme;
+            border-bottom-right-radius: $border-radius-extreme;
+            height: 8px;
+        }
+    }
+}
+
+.card {
+    label {
+        font-size: unset;
+    }
+}
+
+.dropdown-menu {
+    border: 1px solid #c2c2c2 !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+button {
+    border-radius: $border-radius-extreme !important;
+}
+
+.dmSmDropdownMenu {
+    margin-top: -10px;
+}
+
+#root {
+    height: 100% !important;
+}
+
+.loginCard {
+
+    margin: 0;
+
+    label {
+        color: white !important;
+    }
+
+    .card-body,
+    .card-footer {
+        background-blend-mode: color-burn;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+}
+
+#mainDiv {
+    flex-grow: 1;
+    background-color: $default-body-bg;
+    padding: 10px;
+    overflow-y: hidden;
+
+    #porudzbine {
+        display: flex;
+        overflow-x: auto;
+
+        height: 100%;
+        border: 1px solid #bbbbbb;
+        border-radius: $border-radius-extreme;
+        background-color: darken($color: $default-body-bg, $amount: 5);
+        padding: 7px;
+        align-items: flex-start;
+        align-content: flex-start;
+
+        @media (orientation: portrait) {
+            flex-direction: column;
+        }
+
+        @media (orientation: landscape) {
+            flex-direction: row;
+        }
+    }
+}
+
+.dmModalNovaPorudzbinaSaCentrale {
+
+    .modal-header {
+        padding: 10px;
+        background-color: $default-body-bg;
+    }
+
+    margin: 0px;
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 15px;
+
+    .modal-content {
+        height: 100%;
+        border-radius: $border-radius-extreme;
+    }
+
+    .modal-footer {
+        padding: 10px;
+        background-color: $default-body-bg;
+        display: flex;
+        column-gap: 5px;
+
+        button {
+            margin: 0;
+            flex-grow: 1;
+        }
+    }
+
+    .modal-body {
+        padding: 8px;
+        height: 100%;
+        overflow-y: auto;
+
+        #body {
+            display: flex;
+            height: 100%;
+
+            #info {
+                padding: 6px;
+                border: 1px solid rgba($color: #000000, $alpha: 0.125);
+                border-radius: $border-radius-extreme;
+                overflow-y: auto;
+
+                p,
+                ul {
+                    margin: 0;
+                    margin-bottom: 5px;
+                }
+
+                ul {
+                    list-style-type: circle;
+                }
+
+                width: 100%;
+
+                background-color: $default-body-bg;
+
+
+
+            }
+
+        }
+    }
+
+}
+
+
+
+.dmModalUpit {
+
+    .modal-header {
+        padding: 10px;
+        background-color: $default-body-bg;
+    }
+
+    margin: 0px;
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 15px;
+
+    .modal-content {
+        height: 100%;
+        border-radius: $border-radius-extreme;
+    }
+
+    .modal-footer {
+        padding: 10px;
+        background-color: $default-body-bg;
+        display: flex;
+        column-gap: 5px;
+        button {
+            margin: 0;
+            flex-grow: 1;
+        }
+    }
+
+    .modal-body {
+        padding: 8px;
+        height: 100%;
+        overflow-y: auto;
+
+        #body {
+            display: flex;
+            height: 100%;
+
+            #info {
+
+                hr {
+                    margin: 0px;
+                    margin-top: 5px;
+                    margin-bottom: 5px;
+                }
+
+                padding: 6px;
+                border: 1px solid rgba($color: #000000, $alpha: 0.125);
+                border-radius: $border-radius-extreme;
+                overflow-y: auto;
+
+                p,
+                ul {
+                    margin: 0;
+                    margin-bottom: 5px;
+                }
+
+                ul {
+                    list-style-type: circle;                    
+                }
+
+                ol {
+                    padding-left: 20px;
+                }
+
+                width: 100%;
+
+                background-color: $default-body-bg;
+
+
+
+            }
+
+        }
+    }
+
+}
+
+
+
+html {
+    background-color: $dark-color;
+}
+
+#divPovezivanje {
+    background-color: $dark-color;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .container {
+        display: flex;
+        width: 100% !important;
+
+        @media (orientation: landscape) {
+            flex-direction: row;
+        }
+
+        @media (orientation: portrait) {
+            flex-direction: column;
+        }
+
+        @media screen and (max-width: 900px) {
+            margin: 0px;
+            max-width: unset;
+        }
+    }
+
+    //align-items: center;
+
+    #info {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+
+        @media (orientation: landscape) {
+            border-right: 1px solid #dee2e6;
+            width: 50%;
+        }
+
+        @media (orientation: portrait) {
+            border-bottom: 1px solid #dee2e6;
+            height: 50%;
+        }
+
+        #logo {
+            width: 20vw;
+            max-width: 192px;
+            min-width: 120px;
+        }
+
+        #naslov {
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        #podnaslov {
+            color: white;
+            font-size: 18px;
+            text-align: center;
+        }
+    }
+
+    #unosKoda {
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+
+        @media (orientation: landscape) {
+            width: 50%;
+        }
+
+        @media (orientation: portrait) {
+            height: 50%;
+        }
+
+
+        #description {
+            font-size: 18px;
+            color: white;
+            text-align: center;
+        }
+
+        #kod {
+            font-size: 20px;
+            margin-top: 10px;
+            margin-right: 0px;
+            max-width: 50vw;
+            min-width: 300px;
+        }
+
+        #potvrdi {
+            font-size: 15px;
+            margin-top: 25px;
+            margin-right: 0px;
+            width: 100%;
+            max-width: 50vw;
+            min-width: 300px;
+        }
+    }
+
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+    -moz-appearance: textfield;
+}
