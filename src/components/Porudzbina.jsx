@@ -52,6 +52,11 @@ export default class Porudzbina extends Component {
     this.setState({ zvukStatus: true });
   }
 
+  preuzeta = () => {
+    this.setState({ progress: true });
+    myFetch("/vozacApi/preuzeta", "POST", { id: this.props.obj.id });
+  };
+
   dostavljena = () => {
     this.setState({ progress: true });
     myFetch("/vozacApi/dostavljena", "POST", { id: this.props.obj.id });
@@ -99,7 +104,21 @@ export default class Porudzbina extends Component {
     if (obj.status === 1) {
       dugmad = <Row form></Row>;
     } else if (obj.status === 2) {
-      dugmad = <></>;
+      dugmad = (
+        <>
+          {obj.PartnerId == null && (
+            <Button
+              block
+              color="secondary"
+              disabled={this.state.progress}
+              onClick={this.preuzeta}
+            >
+              <i className="fas fa-truck mr-1" />
+              Preuzeta
+            </Button>
+          )}
+        </>
+      );
     } else if (obj.status === 3) {
       dugmad = (
         <Button
@@ -160,6 +179,11 @@ export default class Porudzbina extends Component {
           <CardTitle style={{ whiteSpace: "nowrap" }}>
             <Row className="align-items-center">
               <Col xs={6}>
+                {obj.firebaseUID != null && (
+                  <Badge className="ml-2" color="primary">
+                    Iz aplikacije
+                  </Badge>
+                )}
                 <Badge className="ml-2" color="info">
                   {statusi[obj.status]}
                 </Badge>
@@ -226,6 +250,25 @@ export default class Porudzbina extends Component {
                       {obj.telefon}
                     </a>
                   </b>
+                </li>
+              ) : (
+                ""
+              )}
+              <li>
+                Cena dostave: <b>{obj.cenaDostave} din.</b>
+              </li>
+
+              {obj.cenaPorudzbine != null && obj.cenaPorudzbine.length != 0 ? (
+                <li>
+                  Cena porudžbine: <b>{obj.cenaPorudzbine} din.</b>
+                </li>
+              ) : (
+                ""
+              )}
+
+              {obj.cenaPorudzbine != null && obj.cenaPorudzbine.length != 0 ? (
+                <li>
+                  Za naplatu: <b>{obj.cenaDostave + obj.cenaPorudzbine} din.</b>
                 </li>
               ) : (
                 ""

@@ -61,7 +61,7 @@ export default class ModalUpit extends Component {
       <>
         <Sound
           url={require("assets/sounds/alarm.mp3")}
-          //playStatus={Sound.status.PLAYING}
+          playStatus={Sound.status.PLAYING}
         />
 
         <Modal isOpen={this.state.isOpen} className="dmModalUpit">
