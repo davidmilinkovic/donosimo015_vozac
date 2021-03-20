@@ -75,7 +75,7 @@ export default class ModalNovaPorudzbinaSaCentrale extends Component {
                       <i className="fas fa-clock fa-fw mr-1" />
                       Zakazana za:{" "}
                       <b>
-                        <Moment format="hh:mm">{obj.zakazanaZa}</Moment>
+                        <Moment format="HH:mm">{obj.zakazanaZa}</Moment>
                       </b>
                     </p>
                   )}

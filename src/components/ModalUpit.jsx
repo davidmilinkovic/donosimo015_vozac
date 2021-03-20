@@ -22,6 +22,7 @@ export default class ModalUpit extends Component {
     isOpen: false,
     vremeDoPartnera: null,
     vremeDostave: null,
+    modalOtkazi: false,
   };
 
   componentDidMount() {
@@ -53,6 +54,15 @@ export default class ModalUpit extends Component {
     });
   };
 
+  otkazi = () => {
+    this.ucitava();
+    this.setState({modalOtkazi: false});
+    myFetch("/vozacApi/otkazi", "POST", {
+      id: this.props.upit.AktivnaPorudzbinaId,
+      razlog: document.getElementById("razlogOtkazivanja").value
+    });
+  };
+
   render() {
     var { upit } = this.props;
     var obj = upit.AktivnaPorudzbina;
@@ -63,6 +73,31 @@ export default class ModalUpit extends Component {
           url={require("assets/sounds/alarm.mp3")}
           playStatus={Sound.status.PLAYING}
         />
+
+        <Modal isOpen={this.state.modalOtkazi} className="dmModal">
+          <ModalHeader>
+            <i className="fas fa-ban mr-1 text-danger " />
+            Otkazivanje porudžbine #{obj.id}
+          </ModalHeader>
+          <ModalBody>
+            <FormGroup>
+              <Label for="razlogOtkazivanja">Razlog otkazivanja:</Label>
+              <Input
+                type="textarea"
+                id="razlogOtkazivanja"
+                placeholder="Navedite razlog otkazivanja..."
+              />
+            </FormGroup>
+          </ModalBody>
+          <ModalFooter>
+            <Button color="warning" onClick={() => this.setState({modalOtkazi: false})}>
+              Zatvori
+            </Button>
+            <Button color="danger" onClick={this.otkazi}>
+              Otkaži porudžbinu
+            </Button>
+          </ModalFooter>
+        </Modal>
 
         <Modal isOpen={this.state.isOpen} className="dmModalUpit">
           <ModalHeader>
@@ -78,7 +113,7 @@ export default class ModalUpit extends Component {
                       <i className="fas fa-clock fa-fw mr-1" />
                       Zakazana za:{" "}
                       <b>
-                        <Moment format="hh:mm">{obj.zakazanaZa}</Moment>
+                        <Moment format="HH:mm">{obj.zakazanaZa}</Moment>
                       </b>
                     </p>
                   )}
@@ -191,7 +226,13 @@ export default class ModalUpit extends Component {
                               {stavka.opis != null && stavka.opis.length > 0
                                 ? " - " + stavka.opis.replace("\n", "; ") + " "
                                 : " "}
-                              <i>({stavka.kolicina * stavka.cena} din.)</i>
+                              <i>
+                                (
+                                {obj.firebaseUID == null
+                                  ? stavka.kolicina * stavka.cena
+                                  : stavka.cena}{" "}
+                                din.)
+                              </i>
                             </span>
                           </li>
                         ))}
@@ -219,26 +260,46 @@ export default class ModalUpit extends Component {
               </div>
             </div>
           </ModalBody>
-          <ModalFooter>
-            <Button
-              color="danger"
-              onClick={this.odbij}
-              disabled={this.state.progress}
-            >
-              <i className="fas fa-times mr-1" /> Odbij
-            </Button>
-            <Button
-              color="success"
-              onClick={this.licitiraj}
-              disabled={
-                this.state.progress ||
-                !this.state.vremeDostave ||
-                !this.state.vremeDoPartnera
-              }
-            >
-              <i className="fas fa-check mr-1" />
-              Licitiraj
-            </Button>
+          <ModalFooter style={{ display: "block", padding: 5 }}>
+            <Row form>
+              <Col xs={6} style={{ pading: 0 }}>
+                <Button
+                  color="warning"
+                  block
+                  onClick={this.odbij}
+                  disabled={this.state.progress}
+                >
+                  <i className="fas fa-times mr-1" /> Odbij
+                </Button>
+              </Col>
+              <Col xs={6} style={{ pading: 0 }}>
+                <Button
+                  color="danger"
+                  block
+                  onClick={() => this.setState({ modalOtkazi: true })}
+                  disabled={this.state.progress}
+                >
+                  <i className="fas fa-bin mr-1" /> Otkaži
+                </Button>
+              </Col>
+            </Row>
+            <Row form>
+              <Col xs={12} style={{ pading: 0 }}>
+                <Button
+                  color="success"
+                  block
+                  onClick={this.licitiraj}
+                  disabled={
+                    this.state.progress ||
+                    !this.state.vremeDostave ||
+                    !this.state.vremeDoPartnera
+                  }
+                >
+                  <i className="fas fa-check mr-1" />
+                  Licitiraj
+                </Button>
+              </Col>
+            </Row>
           </ModalFooter>
         </Modal>
       </>

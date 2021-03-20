@@ -26,17 +26,21 @@ import Moment from "react-moment";
 var Sound = require("react-sound").default;
 
 var statusi = {
+  0: "Čeka se potvrda", // 1
   1: "U pripremi", // 1
   2: "Čeka se preuzimanje", // 2
   3: "Dostavlja se", // 2
   6: "Otkazana",
+  7: "Zakazana",
 };
 
 var boje = {
+  0: "warning",
   1: "secondary",
   2: "success",
   3: "info",
   6: "danger",
+  7: "warning",
 };
 
 export default class Porudzbina extends Component {
@@ -55,6 +59,11 @@ export default class Porudzbina extends Component {
   preuzeta = () => {
     this.setState({ progress: true });
     myFetch("/vozacApi/preuzeta", "POST", { id: this.props.obj.id });
+  };
+
+  preuzmiNaSebe = () => {
+    this.setState({ progress: true });
+    myFetch("/vozacApi/preuzmiNaSebe", "POST", { id: this.props.obj.id });
   };
 
   dostavljena = () => {
@@ -120,7 +129,7 @@ export default class Porudzbina extends Component {
         </>
       );
     } else if (obj.status === 3) {
-      dugmad = (
+      dugmad = obj.VozacId ? (
         <Button
           block
           color="secondary"
@@ -129,6 +138,16 @@ export default class Porudzbina extends Component {
         >
           <i className="fas fa-truck mr-1" />
           Dostavljena
+        </Button>
+      ) : (
+        <Button
+          block
+          color="primary"
+          disabled={this.state.progress}
+          onClick={this.preuzmiNaSebe}
+        >
+          <i className="fas fa-user-circle mr-1" />
+          Preuzeta
         </Button>
       );
     } else if (obj.status === 6) {
@@ -152,29 +171,6 @@ export default class Porudzbina extends Component {
           playStatus={this.state.zvukStatus ? "" : ""}
           onFinishedPlaying={() => this.setState({ zvukStatus: false })}
         />
-
-        <Modal isOpen={this.state.modalOdbij} className="dmModal modalOdbij">
-          <ModalHeader>
-            <i className="fas fa-ban mr-1 text-danger " />
-            Odbijanje porudžbine #{obj.id}
-          </ModalHeader>
-          <ModalBody>
-            <FormGroup>
-              <Label for="razlogOdbijanja">Razlog odbijanja:</Label>
-              <Input
-                type="textarea"
-                id="razlogOdbijanja"
-                placeholder="Navedite razlog odbijanja..."
-              />
-            </FormGroup>
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" onClick={this.odbij}>
-              Potvrdi
-            </Button>
-          </ModalFooter>
-        </Modal>
-
         <CardHeader>
           <CardTitle style={{ whiteSpace: "nowrap" }}>
             <Row className="align-items-center">
@@ -202,18 +198,36 @@ export default class Porudzbina extends Component {
 
         <CardBody>
           {obj.razlogOtkazivanja != null && (
-            <p id="razlog">
+            <p
+              style={{ fontSize: "110%", marginBottom: 5 }}
+              align="center"
+              className="bold"
+            >
               <i className="fas fa-times-circle mr-1" />
               Razlog otkazivanja: <b>{obj.razlogOtkazivanja}</b>
             </p>
           )}
           {obj.zakazanaZa != null && (
-            <p id="razlog">
+            <p
+              style={{ fontSize: "110%", marginBottom: 5 }}
+              align="center"
+              className="bold"
+            >
               <i className="fas fa-clock mr-1" />
               Zakazana za:{" "}
               <b>
-                <Moment format="hh:mm">{obj.zakazanaZa}</Moment>
+                <Moment format="HH:mm">{obj.zakazanaZa}</Moment>
               </b>
+            </p>
+          )}
+          {obj.VozacId != null && (
+            <p
+              style={{ fontSize: "110%", marginBottom: 5 }}
+              align="center"
+              className="bold"
+            >
+              <i className="fas fa-car mr-2" />
+              Vozač: <b>{obj.Vozac.ime}</b>{" "}
             </p>
           )}
 

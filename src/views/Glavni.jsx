@@ -52,10 +52,13 @@ export default class Glavni extends Component {
     myFetch("/vozacApi/porudzbineNaCekanju").then((res) => {
       var naCekanju = res.result;
       if (naCekanju.length > 0) {
-        if(this.state.porudzbinaModal == null || naCekanju[0].id != this.state.porudzbinaModal.id) {
-          this.setState({ porudzbinaModal: naCekanju[0] });        
+        if (
+          this.state.porudzbinaModal == null ||
+          naCekanju[0].id != this.state.porudzbinaModal.id
+        ) {
+          this.setState({ porudzbinaModal: naCekanju[0] });
           refModalNova.current.otvori();
-        }        
+        }
       } else this.setState({ porudzbinaModal: null });
     });
     this.intervalPorudzbineCekanje = setTimeout(
@@ -68,38 +71,47 @@ export default class Glavni extends Component {
     myFetch("/vozacApi/upiti").then((res) => {
       var upiti = res.result;
       if (upiti.length > 0) {
-        if(this.state.prikazaniUpit == null || upiti[0].id != this.state.prikazaniUpit.id) {
-          this.setState({ prikazaniUpit: upiti[0] });        
+        if (
+          this.state.prikazaniUpit == null ||
+          upiti[0].id != this.state.prikazaniUpit.id
+        ) {
+          this.setState({ prikazaniUpit: upiti[0] });
           refModalUpit.current.otvori();
-        }        
+        }
       } else this.setState({ prikazaniUpit: null });
     });
-    this.intervalUpiti = setTimeout(
-      this.dajUpite,
-      1000
-    );
+    this.intervalUpiti = setTimeout(this.dajUpite, 1000);
   };
 
   dajPorudzbine = () => {
     myFetch("/vozacApi/aktivnePorudzbine").then((res) => {
-      var porudzbine = res.result;
+      var nesortirane = res.result; // moraju zakazane da se prebace na kraj
+      var porudzbine = [];
+      for(var p of nesortirane)
+        if(p.status != 7)
+          porudzbine.push(p);
+      for(var p of nesortirane)
+        if(p.status == 7)
+          porudzbine.push(p);
       porudzbine.forEach((p) => {
-        if (this.state["preostalo_" + p.id] == null) {
-          var obj = {};
+        if (p.status != 0 && p.status != 7) {
+          if (this.state["preostalo_" + p.id] == null) {
+            var obj = {};
 
-          var sistemsko = new Date(res.result[0].sistemskoVreme);
-          var razlika = sistemsko - new Date();
-          var ocekivano = new Date(p.ocekivanoVremePreuzimanja);
-          ocekivano.setMilliseconds(ocekivano.getMilliseconds() - razlika);
-          var preostalo = Math.floor((ocekivano - new Date()) / 1000);
+            var sistemsko = new Date(res.result[0].sistemskoVreme);
+            var razlika = sistemsko - new Date();
+            var ocekivano = new Date(p.ocekivanoVremePreuzimanja);
+            ocekivano.setMilliseconds(ocekivano.getMilliseconds() - razlika);
+            var preostalo = Math.floor((ocekivano - new Date()) / 1000);
 
-          obj["ocekivano_" + p.id] = ocekivano;
-          obj["preostalo_" + p.id] = preostalo;
+            obj["ocekivano_" + p.id] = ocekivano;
+            obj["preostalo_" + p.id] = preostalo;
 
-          this.setState(obj);
+            this.setState(obj);
+          }
         }
       });
-      this.setState({ porudzbine: res.result });
+      this.setState({ porudzbine });
     });
     this.intervalPorudzbine = setTimeout(this.dajPorudzbine, 1000);
   };
@@ -168,7 +180,7 @@ export default class Glavni extends Component {
             align="center"
             style={{
               fontSize: 18,
-              fontWeight:"bold",
+              fontWeight: "bold",
               marginTop: 0,
               marginBottom: 0,
               color: "white",
@@ -198,7 +210,7 @@ export default class Glavni extends Component {
             }}
           >
             <b>{this.state.porudzbine.length}</b> aktivnih porudžbina
-          </p>          
+          </p>
         </Navbar>
         <div id="mainDiv">
           {this.state.porudzbinaModal != null ? (
@@ -210,10 +222,7 @@ export default class Glavni extends Component {
             ""
           )}
           {this.state.prikazaniUpit != null ? (
-            <ModalUpit
-              upit={this.state.prikazaniUpit}
-              ref={refModalUpit}
-            />
+            <ModalUpit upit={this.state.prikazaniUpit} ref={refModalUpit} />
           ) : (
             ""
           )}
@@ -239,7 +248,9 @@ export default class Glavni extends Component {
                     color="#51bcda"
                     loading={this.state.loading}
                   />
-                  <h4 style={{fontSize: 20}} align="center">Nema aktivnih porudžbina</h4>
+                  <h4 style={{ fontSize: 20 }} align="center">
+                    Nema aktivnih porudžbina
+                  </h4>
                 </div>
               ) : (
                 this.state.porudzbine.map((porudzbina) => (
